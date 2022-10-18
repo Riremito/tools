@@ -1,0 +1,93 @@
+#include"Simple.h"
+
+std::wstring BYTEtoString(BYTE b) {
+	std::wstring wb;
+	WCHAR high = (b >> 4) & 0x0F;
+	WCHAR low = b & 0x0F;
+
+	high += (high <= 0x09) ? 0x30 : 0x37;
+	low += (low <= 0x09) ? 0x30 : 0x37;
+
+	wb.push_back(high);
+	wb.push_back(low);
+
+	return wb;
+}
+
+std::wstring WORDtoString(WORD w) {
+	std::wstring ww;
+
+	ww += BYTEtoString((w >> 8) & 0xFF);
+	ww += BYTEtoString(w & 0xFF);
+
+	return ww;
+}
+
+std::wstring DWORDtoString(DWORD dw) {
+	std::wstring wdw;
+
+	wdw += BYTEtoString((dw >> 24) & 0xFF);
+	wdw += BYTEtoString((dw >> 16) & 0xFF);
+	wdw += BYTEtoString((dw >> 8) & 0xFF);
+	wdw += BYTEtoString(dw & 0xFF);
+
+	return wdw;
+}
+
+std::wstring DatatoString(BYTE *b, ULONG_PTR Length, bool space) {
+	std::wstring wdata;
+
+	for (ULONG_PTR i = 0; i < Length; i++) {
+		if (space) {
+			if (i) {
+				wdata.push_back(L' ');
+			}
+		}
+		wdata += BYTEtoString(b[i]);
+	}
+
+	return wdata;
+}
+
+#ifdef _WIN64
+std::wstring QWORDtoString(ULONG_PTR u) {
+	std::wstring wdw;
+
+	wdw += BYTEtoString((u >> 56) & 0xFF);
+	wdw += BYTEtoString((u >> 48) & 0xFF);
+	wdw += BYTEtoString((u >> 40) & 0xFF);
+	wdw += BYTEtoString((u >> 32) & 0xFF);
+	wdw += BYTEtoString((u >> 24) & 0xFF);
+	wdw += BYTEtoString((u >> 16) & 0xFF);
+	wdw += BYTEtoString((u >> 8) & 0xFF);
+	wdw += BYTEtoString(u & 0xFF);
+
+	return wdw;
+}
+#endif
+
+bool GetDir(std::wstring &wDir, std::wstring wDll) {
+	WCHAR wcDir[MAX_PATH] = { 0 };
+
+	if (wDll.length()) {
+		if (!GetModuleFileNameW(GetModuleHandleW(wDll.c_str()), wcDir, _countof(wcDir))) {
+			return false;
+		}
+	}
+	else {
+		if (!GetModuleFileNameW(GetModuleHandleW(NULL), wcDir, _countof(wcDir))) {
+			return false;
+		}
+	}
+
+	std::wstring dir = wcDir;
+	size_t pos = dir.rfind(L"\\");
+
+	if (pos == std::wstring::npos) {
+		return false;
+	}
+
+	dir = dir.substr(0, pos + 1);
+	wDir = dir;
+	return true;
+}
