@@ -2,13 +2,13 @@
 #define ZYCORE_STATIC_DEFINE
 #define ZYDIS_STATIC_DEFINE
 #include<inttypes.h>
-#include<Zydis/Zydis.h>
+#include"../Zydis64/Zydis/Zydis.h"
 #ifndef _WIN64
-#pragma comment(lib, "../Share/ExternalLib/Zydis.lib")
-#pragma comment(lib, "../Share/ExternalLib/Zycore.lib")
+#pragma comment(lib, "../Share/Hook/Zydis.lib")
+#pragma comment(lib, "../Share/Hook/Zycore.lib")
 #else
-#pragma comment(lib, "../Share/ExternalLib/Zydis64.lib")
-#pragma comment(lib, "../Share/ExternalLib/Zycore64.lib")
+#pragma comment(lib, "../Share/Hook/Zydis64.lib")
+#pragma comment(lib, "../Share/Hook/Zycore64.lib")
 #endif
 #include<vector>
 
