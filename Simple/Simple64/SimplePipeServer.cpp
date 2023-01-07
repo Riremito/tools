@@ -11,7 +11,18 @@ PipeServer::~PipeServer() {
 }
 
 bool PipeServer::Run() {
-	HANDLE server_pipe = CreateNamedPipeW(pipe_name.c_str(), PIPE_ACCESS_DUPLEX, PIPE_TYPE_BYTE | PIPE_WAIT, PIPE_UNLIMITED_INSTANCES, 1, 0, 0, NULL);
+	// ä«óùé“å†å¿ÇÃóLñ≥ÇÃñ≥éã TY taku
+	SECURITY_DESCRIPTOR securityDescriptor;
+	memset(&securityDescriptor, 0, sizeof(securityDescriptor));
+	InitializeSecurityDescriptor(&securityDescriptor, SECURITY_DESCRIPTOR_REVISION);
+	SetSecurityDescriptorDacl(&securityDescriptor, true, 0, false);
+
+	SECURITY_ATTRIBUTES securityAttributes;
+	memset(&securityAttributes, 0, sizeof(securityAttributes));
+	securityAttributes.nLength = sizeof(securityAttributes);
+	securityAttributes.lpSecurityDescriptor = &securityDescriptor;
+
+	HANDLE server_pipe = CreateNamedPipeW(pipe_name.c_str(), PIPE_ACCESS_DUPLEX, PIPE_TYPE_BYTE | PIPE_WAIT, PIPE_UNLIMITED_INSTANCES, 1, 0, 0, &securityAttributes);
 
 	if (server_pipe == INVALID_HANDLE_VALUE) {
 		return false;
