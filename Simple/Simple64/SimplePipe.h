@@ -6,10 +6,7 @@
 #pragma pack(push, 1)
 typedef struct {
 	DWORD magic;
-	ULONG_PTR length;
-#ifndef _WIN64
-	DWORD padding;
-#endif
+	DWORD length;
 	BYTE data[1];
 } PipeMessage;
 #pragma pack(pop)
