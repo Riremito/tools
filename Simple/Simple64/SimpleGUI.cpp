@@ -55,6 +55,15 @@ bool Alice::Run() {
 	return true;
 }
 
+bool Alice::IsAlive() {
+	for (auto hwnd: window_list) {
+		if (hwnd == main_hwnd) {
+			return true;
+		}
+	}
+	return false;
+}
+
 bool Alice::DetectInvalidWindow() {
 	for (size_t i = 0; i < window_list.size(); i++) {
 		if (!IsWindow(window_list[i])) {

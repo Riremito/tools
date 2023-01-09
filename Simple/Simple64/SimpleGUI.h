@@ -37,6 +37,7 @@ public:
 	Alice(std::wstring wClassName, std::wstring wWindowName, int nWidth, int nHeight, HINSTANCE hInstance);
 	~Alice();
 	bool Run();
+	bool IsAlive();
 
 	// External
 private:
