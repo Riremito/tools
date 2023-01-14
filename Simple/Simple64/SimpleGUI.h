@@ -90,14 +90,17 @@ private:
 	std::vector<int> listview_previous_selected;
 
 	LRESULT ListView_HeaderCount(size_t nIDDlgItem);
+	LRESULT ListView_LineCount(size_t nIDDlgItem);
 	bool ListView_AutoScroll(size_t nIDDlgItem);
 	bool ListView_GetPreviousSelected(size_t nIDDlgItem, int &Selected);
 	bool ListView_SetPreviousSelected(size_t nIDDlgItem, int Selected);
 public:
 	bool ListView_AddHeader(size_t nIDDlgItem, std::wstring wHeader, int Width);
 	bool ListView_AddItem(size_t nIDDlgItem, int index, std::wstring wText);
+	bool ListView_UpdateItem(size_t nIDDlgItem, int index, int line, std::wstring wText);
 	bool ListView_Clear(size_t nIDDlgItem);
 	bool ListView_Copy(size_t nIDDlgItem, int index, std::wstring &wText, bool block = false, size_t size = 256);
+	bool ListView_Find(size_t nIDDlgItem, int index, std::wstring &wText, int &line);
 };
 
 #endif

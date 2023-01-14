@@ -28,7 +28,7 @@ bool Alice::ListView_AddItem(size_t nIDDlgItem, int index, std::wstring wText) {
 	item.pszText = (WCHAR *)wText.c_str();
 	item.iSubItem = index;
 
-	LRESULT count = SendDlgItemMessageW(main_hwnd, (int)nIDDlgItem, LVM_GETITEMCOUNT, 0, 0);
+	LRESULT count = ListView_LineCount(nIDDlgItem);
 
 	if (index) {
 		count--;
@@ -47,6 +47,30 @@ bool Alice::ListView_AddItem(size_t nIDDlgItem, int index, std::wstring wText) {
 		ListView_AutoScroll(nIDDlgItem);
 	}
 
+	return true;
+}
+
+bool Alice::ListView_UpdateItem(size_t nIDDlgItem, int index, int line, std::wstring wText) {
+	if (!main_hwnd) {
+		return false;
+	}
+
+	if (ListView_HeaderCount(nIDDlgItem) < index) {
+		return false;
+	}
+
+	LRESULT max_count = ListView_LineCount(nIDDlgItem);
+	if (max_count < line) {
+		return false;
+	}
+
+	LVITEMW item = { 0 };
+	item.mask = LVIF_TEXT;
+	item.pszText = (WCHAR *)wText.c_str();
+	item.iSubItem = index;
+	item.iItem = line;
+
+	SendDlgItemMessageW(main_hwnd, (int)nIDDlgItem, LVM_SETITEM, 0, (LPARAM)&item);
 	return true;
 }
 
@@ -98,15 +122,54 @@ bool Alice::ListView_Copy(size_t nIDDlgItem, int index, std::wstring &wText, boo
 	return true;
 }
 
+bool Alice::ListView_Find(size_t nIDDlgItem, int index, std::wstring &wText, int &line) {
+	if (!main_hwnd) {
+		return false;
+	}
+
+	if (ListView_HeaderCount(nIDDlgItem) < index) {
+		return false;
+	}
+
+	LRESULT max_count = ListView_LineCount(nIDDlgItem);
+	std::vector<wchar_t> temp_text(256);
+	LVITEMW li;
+	memset(&li, 0, sizeof(li));
+	li.iSubItem = index;
+	li.pszText = &temp_text[0];
+	li.cchTextMax = (int)(temp_text.size() - 1);
+	std::wstring wtemp_text;
+
+	for (int i = 0; i < max_count; i++) {
+		memset(&temp_text[0], 0, sizeof(wchar_t) * 256);
+		SendDlgItemMessageW(main_hwnd, (int)nIDDlgItem, LVM_GETITEMTEXT, (WPARAM)i, (LPARAM)&li);
+		wtemp_text = &temp_text[0];
+		if (wText.compare(wtemp_text) == 0) {
+			line = i;
+			return true;
+		}
+	}
+	return false;
+}
+
 // private
 LRESULT Alice::ListView_HeaderCount(size_t nIDDlgItem) {
 	if (!main_hwnd) {
-		return false;
+		return 0;
 	}
 
 	HWND header_hwnd = (HWND)SendDlgItemMessageW(main_hwnd, (int)nIDDlgItem, LVM_GETHEADER, 0, 0);
 	return SendMessageW(header_hwnd, HDM_GETITEMCOUNT, 0, 0);
 }
+
+LRESULT Alice::ListView_LineCount(size_t nIDDlgItem) {
+	if (!main_hwnd) {
+		return 0;
+	}
+
+	return SendDlgItemMessageW(main_hwnd, (int)nIDDlgItem, LVM_GETITEMCOUNT, 0, 0);
+}
+
 
 bool Alice::ListView_AutoScroll(size_t nIDDlgItem) {
 	if (!main_hwnd) {
