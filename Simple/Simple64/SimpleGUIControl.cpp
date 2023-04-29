@@ -168,7 +168,7 @@ bool Alice::SetText(size_t nIDDlgItem, std::wstring wText) {
 
 std::wstring Alice::GetText(size_t nIDDlgItem) {
 	if (!main_hwnd) {
-		return false;
+		return L"";
 	}
 
 	LRESULT length = SendDlgItemMessageW(main_hwnd, (int)nIDDlgItem, WM_GETTEXTLENGTH, NULL, NULL);
