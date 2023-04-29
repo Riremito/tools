@@ -33,7 +33,7 @@ Injector::~Injector() {
 }
 
 #ifdef _WIN64
-bool Injector::Run() {
+bool Injector::Run(std::wstring wCmdLine) {
 	STARTUPINFO si;
 	PROCESS_INFORMATION pi;
 
@@ -45,13 +45,27 @@ bool Injector::Run() {
 	size_t pos_last_backslash = wDir.rfind(L'\\');
 	if (pos_last_backslash != std::wstring::npos) {
 		wDir.erase(wDir.begin() + pos_last_backslash + 1, wDir.end());
-		if (!CreateProcessW(target_path.c_str(), 0, 0, 0, FALSE, CREATE_SUSPENDED, 0, wDir.c_str(), &si, &pi)) {
-			return false;
+		if (wCmdLine.length()) {
+			if (!CreateProcessW(target_path.c_str(), (LPWSTR)wCmdLine.c_str(), 0, 0, FALSE, CREATE_SUSPENDED, 0, wDir.c_str(), &si, &pi)) {
+				return false;
+			}
+		}
+		else {
+			if (!CreateProcessW(target_path.c_str(), 0, 0, 0, FALSE, CREATE_SUSPENDED, 0, wDir.c_str(), &si, &pi)) {
+				return false;
+			}
 		}
 	}
 	else {
-		if (!CreateProcessW(target_path.c_str(), 0, 0, 0, FALSE, CREATE_SUSPENDED, 0, 0, &si, &pi)) {
-			return false;
+		if (wCmdLine.length()) {
+			if (!CreateProcessW(target_path.c_str(), (LPWSTR)wCmdLine.c_str(), 0, 0, FALSE, CREATE_SUSPENDED, 0, 0, &si, &pi)) {
+				return false;
+			}
+		}
+		else {
+			if (!CreateProcessW(target_path.c_str(), 0, 0, 0, FALSE, CREATE_SUSPENDED, 0, 0, &si, &pi)) {
+				return false;
+			}
 		}
 	}
 
@@ -181,7 +195,7 @@ bool Injector::Inject() {
 }
 
 #else
-bool Injector::Run() {
+bool Injector::Run(std::wstring wCmdLine) {
 	STARTUPINFO si;
 	PROCESS_INFORMATION pi;
 
@@ -193,13 +207,27 @@ bool Injector::Run() {
 	size_t pos_last_backslash = wDir.rfind(L'\\');
 	if (pos_last_backslash != std::wstring::npos) {
 		wDir.erase(wDir.begin() + pos_last_backslash + 1, wDir.end());
-		if (!CreateProcessW(target_path.c_str(), 0, 0, 0, FALSE, CREATE_SUSPENDED, 0, wDir.c_str(), &si, &pi)) {
-			return false;
+		if (wCmdLine.length()) {
+			if (!CreateProcessW(target_path.c_str(), (LPWSTR)wCmdLine.c_str(), 0, 0, FALSE, CREATE_SUSPENDED, 0, wDir.c_str(), &si, &pi)) {
+				return false;
+			}
+		}
+		else {
+			if (!CreateProcessW(target_path.c_str(), 0, 0, 0, FALSE, CREATE_SUSPENDED, 0, wDir.c_str(), &si, &pi)) {
+				return false;
+			}
 		}
 	}
 	else {
-		if (!CreateProcessW(target_path.c_str(), 0, 0, 0, FALSE, CREATE_SUSPENDED, 0, 0, &si, &pi)) {
-			return false;
+		if (wCmdLine.length()) {
+			if (!CreateProcessW(target_path.c_str(), (LPWSTR)wCmdLine.c_str(), 0, 0, FALSE, CREATE_SUSPENDED, 0, 0, &si, &pi)) {
+				return false;
+			}
+		}
+		else {
+			if (!CreateProcessW(target_path.c_str(), 0, 0, 0, FALSE, CREATE_SUSPENDED, 0, 0, &si, &pi)) {
+				return false;
+			}
 		}
 	}
 

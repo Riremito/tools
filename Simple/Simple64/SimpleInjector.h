@@ -14,7 +14,7 @@ public:
 	Injector(std::wstring wTargetPath, std::wstring wDllPath);
 	Injector(PROCESS_INFORMATION &pi, std::wstring wDllPath);
 	~Injector();
-	bool Run();
+	bool Run(std::wstring wCmdLine = L"");
 	bool Inject();
 };
 
