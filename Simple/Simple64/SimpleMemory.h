@@ -36,6 +36,7 @@ class Rosemary {
 private:
 	bool init;
 	std::vector<MEMORY_BASIC_INFORMATION> section_list;
+	std::vector<MEMORY_BASIC_INFORMATION> data_section_list;
 	bool GetSections(std::wstring wModuleName, bool bExe = false);
 
 public:
@@ -50,6 +51,8 @@ public:
 	bool JMP(ULONG_PTR uPrev, ULONG_PTR uNext, ULONG_PTR uNop = 0);
 	bool Hook(ULONG_PTR uAddress, void *HookFunction, ULONG_PTR uNop = 0);
 	bool GetSectionList(std::vector<MEMORY_BASIC_INFORMATION> &vSection);
+	// test
+	ULONG_PTR StringPatch(std::string search_string, std::string replace_string);
 };
 
 #endif
