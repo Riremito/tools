@@ -18,9 +18,10 @@ namespace SimpleHook {
 	bool InlineHook(void *HookFunction, ULONG_PTR Address, DWORD dwStackValue);
 	bool UnHook();
 	bool Analyze(ULONG_PTR uAddress, std::vector<BYTE> &vCodeSize, ULONG_PTR uMinimumSize = 14);
+	int IsCallerEXE(void *vReturnAddress);
 }
 
-// APIフック
+// use api name (use IAT)
 #define SHook(api) \
 {\
 	if(!SimpleHook::Hook(api##_Hook, &_##api, (ULONG_PTR)##api)) {\
@@ -28,7 +29,7 @@ namespace SimpleHook {
 	}\
 }
 
-// DLLを指定するAPIフック
+// use dll name and api name (no import)
 #define SHookNT(dll, api) \
 {\
 	HMODULE hModule = GetModuleHandleW(L""#dll);\
@@ -42,7 +43,7 @@ namespace SimpleHook {
 	}\
 }
 
-// アドレスを指定するフック
+// usea address
 #define SHookFunction(name, address) \
 {\
 	if(!SimpleHook::Hook(name##_Hook, &_##name, address)) {\
