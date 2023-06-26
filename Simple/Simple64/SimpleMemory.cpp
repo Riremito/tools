@@ -92,6 +92,35 @@ ULONG_PTR Rosemary::Scan(std::wstring wAob, int res) {
 	return 0;
 }
 
+// ListScan
+ULONG_PTR Rosemary::Scan(std::wstring wAobList[], size_t size, size_t &index, bool(*Scanner)(ULONG_PTR)) {
+	ULONG_PTR uAddress = 0;
+
+	index = -1;
+
+	if (!init) {
+		return 0;
+	}
+
+	for (size_t i = 0; i < size; i++) {
+
+		if (!Scanner) {
+			uAddress = Scan(wAobList[i]);
+		}
+		else {
+			uAddress = Scan(wAobList[i], Scanner);
+		}
+
+		if (uAddress) {
+			index = i;
+			return uAddress;
+		}
+	}
+
+	return 0;
+}
+
+
 ULONG_PTR Rosemary::Scan(std::wstring wAob, bool(*Scanner)(ULONG_PTR)) {
 	if (!init) {
 		return 0;
