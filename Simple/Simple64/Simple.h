@@ -49,5 +49,6 @@ std::wstring QWORDtoString(ULONG_PTR u);
 #endif
 
 bool GetDir(std::wstring &wDir, std::wstring wDll = L"");
+bool GetDir(std::wstring &wDir, HMODULE hDll);
 
 #endif

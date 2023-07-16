@@ -49,6 +49,10 @@ bool Rosemary::GetSections(std::wstring wModuleName, bool bExe) {
 				if (mbi.Protect & (PAGE_EXECUTE | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY)) {
 					section_list.push_back(mbi);
 				}
+				// data section for string search
+				if (section_list.size() && mbi.Protect & (PAGE_READWRITE | PAGE_WRITECOPY)) { // PAGE_READONLY and EXECUTE are currently ignored
+					data_section_list.push_back(mbi);
+				}
 				section_base += mbi.RegionSize;
 			}
 
@@ -87,6 +91,35 @@ ULONG_PTR Rosemary::Scan(std::wstring wAob, int res) {
 
 	return 0;
 }
+
+// ListScan
+ULONG_PTR Rosemary::Scan(std::wstring wAobList[], size_t size, size_t &index, bool(*Scanner)(ULONG_PTR)) {
+	ULONG_PTR uAddress = 0;
+
+	index = -1;
+
+	if (!init) {
+		return 0;
+	}
+
+	for (size_t i = 0; i < size; i++) {
+
+		if (!Scanner) {
+			uAddress = Scan(wAobList[i]);
+		}
+		else {
+			uAddress = Scan(wAobList[i], Scanner);
+		}
+
+		if (uAddress) {
+			index = i;
+			return uAddress;
+		}
+	}
+
+	return 0;
+}
+
 
 ULONG_PTR Rosemary::Scan(std::wstring wAob, bool(*Scanner)(ULONG_PTR)) {
 	if (!init) {
@@ -193,4 +226,38 @@ bool Rosemary::JMP(ULONG_PTR uPrev, ULONG_PTR uNext, ULONG_PTR uNop) {
 bool Rosemary::GetSectionList(std::vector<MEMORY_BASIC_INFORMATION> &vSection) {
 	vSection = section_list;
 	return true;
+}
+
+ULONG_PTR Rosemary::StringPatch(std::string search_string, std::string replace_string) {
+	// including null
+	size_t search_string_size = search_string.length() + 1;
+	size_t replace_string_size = replace_string.length() + 1;
+
+	if (search_string_size < replace_string_size) {
+		// unsafe
+		return 0;
+	}
+
+	for (size_t i = 0; i < data_section_list.size(); i++) {
+		for (ULONG_PTR uAddress = (ULONG_PTR)data_section_list[i].BaseAddress; uAddress < ((ULONG_PTR)data_section_list[i].BaseAddress + data_section_list[i].RegionSize - search_string_size); uAddress++) {
+			if (memcmp((void *)uAddress, search_string.c_str(), search_string_size) == 0) {
+				memset((void *)uAddress, 0, search_string_size);
+				memcpy_s((void *)uAddress, replace_string_size, replace_string.c_str(), replace_string_size);
+				return uAddress;
+			}
+		}
+	}
+
+	// some packer's has execute flags
+	for (size_t i = 0; i < section_list.size(); i++) {
+		for (ULONG_PTR uAddress = (ULONG_PTR)section_list[i].BaseAddress; uAddress < ((ULONG_PTR)section_list[i].BaseAddress + section_list[i].RegionSize - search_string_size); uAddress++) {
+			if (memcmp((void *)uAddress, search_string.c_str(), search_string_size) == 0) {
+				memset((void *)uAddress, 0, search_string_size);
+				memcpy_s((void *)uAddress, replace_string_size, replace_string.c_str(), replace_string_size);
+				return uAddress;
+			}
+		}
+	}
+
+	return 0;
 }

@@ -91,3 +91,22 @@ bool GetDir(std::wstring &wDir, std::wstring wDll) {
 	wDir = dir;
 	return true;
 }
+
+bool GetDir(std::wstring &wDir, HMODULE hDll) {
+	WCHAR wcDir[MAX_PATH] = { 0 };
+
+	if (!GetModuleFileNameW(hDll, wcDir, _countof(wcDir))) {
+		return false;
+	}
+
+	std::wstring dir = wcDir;
+	size_t pos = dir.rfind(L"\\");
+
+	if (pos == std::wstring::npos) {
+		return false;
+	}
+
+	dir = dir.substr(0, pos + 1);
+	wDir = dir;
+	return true;
+}
