@@ -248,5 +248,16 @@ ULONG_PTR Rosemary::StringPatch(std::string search_string, std::string replace_s
 		}
 	}
 
+	// some packer's has execute flags
+	for (size_t i = 0; i < section_list.size(); i++) {
+		for (ULONG_PTR uAddress = (ULONG_PTR)section_list[i].BaseAddress; uAddress < ((ULONG_PTR)section_list[i].BaseAddress + section_list[i].RegionSize - search_string_size); uAddress++) {
+			if (memcmp((void *)uAddress, search_string.c_str(), search_string_size) == 0) {
+				memset((void *)uAddress, 0, search_string_size);
+				memcpy_s((void *)uAddress, replace_string_size, replace_string.c_str(), replace_string_size);
+				return uAddress;
+			}
+		}
+	}
+
 	return 0;
 }
