@@ -23,6 +23,7 @@
 #include"SimpleConfig.h"
 #include"SimplePipe.h"
 #include"SimpleInjector.h"
+#include"SimpleFile.h"
 
 #define DEBUG(msg) \
 {\

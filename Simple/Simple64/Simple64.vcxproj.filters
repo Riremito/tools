@@ -22,6 +22,9 @@
     <Filter Include="ソース ファイル\Memory">
       <UniqueIdentifier>{c103ca26-f35e-476c-9338-66935c4f17e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\File">
+      <UniqueIdentifier>{3ff569c4-0337-44ae-80fd-14daccbb9825}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Simple.cpp">
@@ -63,6 +66,9 @@
     <ClCompile Include="SimpleInjector.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="SimpleFile.cpp">
+      <Filter>ソース ファイル\File</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Simple.h">
@@ -81,6 +87,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="SimpleInjector.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleFile.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

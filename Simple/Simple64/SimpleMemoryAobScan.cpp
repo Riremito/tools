@@ -104,3 +104,7 @@ bool AobScan::Compare(unsigned __int64 uAddress) {
 
 	return true;
 }
+
+size_t AobScan::size() {
+	return array_of_bytes.size();
+}

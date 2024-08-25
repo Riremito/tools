@@ -29,6 +29,7 @@ public:
 #else
 	bool Compare(unsigned __int64 uAddress);
 #endif
+	size_t size();
 };
 
 

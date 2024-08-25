@@ -148,6 +148,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="SimpleFile.cpp" />
     <ClCompile Include="SimpleInjector.cpp" />
     <ClCompile Include="SimpleMemoryAobScan.cpp" />
     <ClCompile Include="SimpleMemoryCode.cpp" />
@@ -165,6 +166,7 @@
   <ItemGroup>
     <ClInclude Include="Simple.h" />
     <ClInclude Include="SimpleConfig.h" />
+    <ClInclude Include="SimpleFile.h" />
     <ClInclude Include="SimpleGUI.h" />
     <ClInclude Include="SimpleInjector.h" />
     <ClInclude Include="SimpleMemory.h" />
