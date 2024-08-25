@@ -41,6 +41,9 @@
     <ClCompile Include="..\Simple64\SimplePipeServer.cpp" />
     <ClCompile Include="..\Simple64\SimplePipeServerThread.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.editorconfig" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{F6E8E5F8-3292-413E-9848-0F8B7DAE8D0B}</ProjectGuid>

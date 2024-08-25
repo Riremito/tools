@@ -1,4 +1,4 @@
-#include"Simple.h"
+﻿#include"Simple.h"
 
 AobScan::AobScan(std::wstring wAob) {
 	init = CreateAob(wAob);

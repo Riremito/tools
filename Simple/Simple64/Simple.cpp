@@ -1,4 +1,4 @@
-#include"Simple.h"
+﻿#include"Simple.h"
 
 std::wstring BYTEtoString(BYTE b) {
 	std::wstring wb;

@@ -1,4 +1,4 @@
-#ifndef __INJECTOR_H__
+﻿#ifndef __INJECTOR_H__
 #define __INJECTOR_H__
 
 class Injector {

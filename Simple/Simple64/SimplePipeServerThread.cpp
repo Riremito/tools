@@ -1,4 +1,4 @@
-#include"Simple.h"
+﻿#include"Simple.h"
 
 PipeServerThread::PipeServerThread(HANDLE hPipe, bool(*function)(PipeServerThread&)) {
 	server_pipe = hPipe;

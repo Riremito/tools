@@ -1,4 +1,4 @@
-#include"Simple.h"
+﻿#include"Simple.h"
 
 Code::Code(std::wstring wCode) {
 	init = CreateCode(wCode);

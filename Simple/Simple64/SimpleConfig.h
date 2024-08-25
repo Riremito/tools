@@ -1,4 +1,4 @@
-#ifndef __SIMPLECONFIG_H__
+ï»¿#ifndef __SIMPLECONFIG_H__
 #define __SIMPLECONFIG_H__
 
 class Config {
@@ -6,13 +6,13 @@ private:
 	std::wstring config_file_name;
 	bool SetConfigFile(std::wstring wFileName, HMODULE hModule);
 public:
-	// EXE‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğQÆ
+	// EXEã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å‚ç…§
 	Config(std::wstring wFileName);
-	// DLL‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğQÆ
+	// DLLã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’å‚ç…§
 	Config(std::wstring wFileName, HMODULE hDll);
-	// İ’è‚Ì“Ç‚İæ‚è
+	// è¨­å®šã®èª­ã¿å–ã‚Š
 	bool Read(std::wstring wSection, std::wstring wKey, std::wstring &wValue);
-	// İ’è‚ÌXV
+	// è¨­å®šã®æ›´æ–°
 	bool Update(std::wstring wSection, std::wstring wKey, std::wstring wValue);
 };
 

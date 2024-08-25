@@ -1,4 +1,4 @@
-#include"Simple.h"
+﻿#include"Simple.h"
 
 PipeClient::PipeClient(std::wstring wPipeName) {
 	pipe_name = L"\\\\.\\pipe\\" + wPipeName;

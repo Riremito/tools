@@ -1,4 +1,4 @@
-#include"Simple.h"
+﻿#include"Simple.h"
 
 Config::Config(std::wstring wFileName) {
 	SetConfigFile(wFileName, GetModuleHandleW(NULL));

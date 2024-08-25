@@ -1,4 +1,4 @@
-#ifndef __ROSEMARY_H__
+﻿#ifndef __ROSEMARY_H__
 #define __ROSEMARY_H__
 
 class Code {

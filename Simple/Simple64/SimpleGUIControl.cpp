@@ -1,4 +1,4 @@
-#include"Simple.h"
+ï»¿#include"Simple.h"
 
 // create
 bool Alice::StaticText(size_t nIDDlgItem, std::wstring wText, int X, int Y) {
@@ -206,7 +206,7 @@ LRESULT Alice::CheckBoxStatus(size_t nIDDlgItem) {
 
 // private
 bool Alice::SetFont(size_t nIDDlgItem) {
-	static HFONT font = CreateFontW(12, NULL, NULL, NULL, FW_NORMAL, NULL, NULL, NULL, SHIFTJIS_CHARSET, NULL, NULL, NULL, NULL, L"‚l‚r ƒSƒVƒbƒN");
+	static HFONT font = CreateFontW(12, NULL, NULL, NULL, FW_NORMAL, NULL, NULL, NULL, SHIFTJIS_CHARSET, NULL, NULL, NULL, NULL, L"ï¼­ï¼³ ã‚´ã‚·ãƒƒã‚¯");
 	if (!font) {
 		return false;
 	}

@@ -170,6 +170,9 @@
     <ClInclude Include="SimpleMemory.h" />
     <ClInclude Include="SimplePipe.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.editorconfig" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
