@@ -1,5 +1,5 @@
-﻿#include"SimpleFile.h"
-#include"SimpleMemory.h"
+﻿#ifdef _WIN64
+#include"Simple.h"
 
 // public
 Frost::Frost(const WCHAR *wPath) {
@@ -292,12 +292,12 @@ int Frost::GetSectionNumber(ULONG_PTR uVirtualAddress) {
 		return -1;
 	}
 
-	for (int i = 0; i < image_section_headers.size(); i++) {
+	for (size_t i = 0; i < image_section_headers.size(); i++) {
 		auto &v = image_section_headers[i];
 		ULONG_PTR uStartAddr = ImageBase + v.VirtualAddress;
 		ULONG_PTR uEndAddr = uStartAddr + v.Misc.VirtualSize;
 		if (uStartAddr <= uVirtualAddress && uVirtualAddress <= uEndAddr) {
-			return i;
+			return (int)i;
 		}
 	}
 
@@ -447,3 +447,4 @@ bool Frost::Open() {
 
 	return true;
 }
+#endif

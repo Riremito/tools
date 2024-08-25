@@ -34,6 +34,30 @@ std::wstring DWORDtoString(DWORD dw) {
 	return wdw;
 }
 
+#ifdef _WIN64
+std::wstring QWORDtoString(ULONG_PTR u, bool slim) {
+	std::wstring wdw;
+
+	wdw += BYTEtoString((u >> 56) & 0xFF);
+	wdw += BYTEtoString((u >> 48) & 0xFF);
+	wdw += BYTEtoString((u >> 40) & 0xFF);
+	wdw += BYTEtoString((u >> 32) & 0xFF);
+	wdw += BYTEtoString((u >> 24) & 0xFF);
+	wdw += BYTEtoString((u >> 16) & 0xFF);
+	wdw += BYTEtoString((u >> 8) & 0xFF);
+	wdw += BYTEtoString(u & 0xFF);
+
+	for (size_t i = 0; wdw.length(); i++) {
+		if (0 < i && wdw.at(i) != L'0') {
+			wdw.erase(wdw.begin(), wdw.begin() + i);
+			break;
+		}
+	}
+
+	return wdw;
+}
+#endif
+
 std::wstring DatatoString(BYTE *b, ULONG_PTR Length, bool space) {
 	std::wstring wdata;
 
@@ -48,23 +72,6 @@ std::wstring DatatoString(BYTE *b, ULONG_PTR Length, bool space) {
 
 	return wdata;
 }
-
-#ifdef _WIN64
-std::wstring QWORDtoString(ULONG_PTR u) {
-	std::wstring wdw;
-
-	wdw += BYTEtoString((u >> 56) & 0xFF);
-	wdw += BYTEtoString((u >> 48) & 0xFF);
-	wdw += BYTEtoString((u >> 40) & 0xFF);
-	wdw += BYTEtoString((u >> 32) & 0xFF);
-	wdw += BYTEtoString((u >> 24) & 0xFF);
-	wdw += BYTEtoString((u >> 16) & 0xFF);
-	wdw += BYTEtoString((u >> 8) & 0xFF);
-	wdw += BYTEtoString(u & 0xFF);
-
-	return wdw;
-}
-#endif
 
 bool GetDir(std::wstring &wDir, std::wstring wDll) {
 	WCHAR wcDir[MAX_PATH] = { 0 };
