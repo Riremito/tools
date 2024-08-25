@@ -50,6 +50,33 @@ bool Alice::ListView_AddItem(size_t nIDDlgItem, int index, std::wstring wText) {
 	return true;
 }
 
+bool Alice::ListView_AddItemWOS(size_t nIDDlgItem, int index, std::wstring wText) {
+	if (!main_hwnd) {
+		return false;
+	}
+
+	LVITEMW item = { 0 };
+	item.mask = LVIF_TEXT;
+	item.pszText = (WCHAR *)wText.c_str();
+	item.iSubItem = index;
+
+	LRESULT count = ListView_LineCount(nIDDlgItem);
+
+	if (index) {
+		count--;
+	}
+
+	item.iItem = (int)count;
+
+	if (!index) {
+		SendDlgItemMessageW(main_hwnd, (int)nIDDlgItem, LVM_INSERTITEM, 0, (LPARAM)&item);
+	}
+	else {
+		SendDlgItemMessageW(main_hwnd, (int)nIDDlgItem, LVM_SETITEM, 0, (LPARAM)&item);
+	}
+	return true;
+}
+
 bool Alice::ListView_UpdateItem(size_t nIDDlgItem, int index, int line, std::wstring wText) {
 	if (!main_hwnd) {
 		return false;

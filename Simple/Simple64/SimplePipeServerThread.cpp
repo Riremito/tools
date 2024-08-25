@@ -38,7 +38,7 @@ bool PipeServerThread::Send(BYTE *bData, ULONG_PTR uLength) {
 	}
 
 	pm->magic = PIPE_MESSAGE_MAGIC;
-	pm->length = uLength;
+	pm->length = (DWORD)uLength;
 	memcpy_s(pm->data, uLength, bData, uLength);
 
 	DWORD wb = 0;

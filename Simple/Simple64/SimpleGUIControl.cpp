@@ -133,12 +133,10 @@ bool Alice::ComboBox(size_t nIDDlgItem, int X, int Y, int nWidth) {
 		return false;
 	}
 
-	HWND hWnd = CreateWindowExW(NULL, L"COMBOBOX", NULL, WS_CHILD | WS_VISIBLE | CBS_SORT | CBS_SIMPLE | CBS_DROPDOWNLIST, X, (Y + 2), nWidth, 16, main_hwnd, (HMENU)nIDDlgItem, main_instance, NULL);
+	HWND hWnd = CreateWindowExW(NULL, L"COMBOBOX", NULL, WS_CHILD | WS_VISIBLE | CBS_SORT | CBS_SIMPLE | CBS_DROPDOWNLIST, X, Y, nWidth, 16, main_hwnd, (HMENU)nIDDlgItem, main_instance, NULL);
 	if (!hWnd) {
 		return false;
 	}
-
-	SendMessageW(hWnd, CB_DIR, DDL_READWRITE, (LPARAM)L"C:\\Windows\\*.*");
 
 	control_hwnd_list.push_back(hWnd);
 	control_id_list.push_back(nIDDlgItem);
@@ -154,6 +152,16 @@ bool Alice::ReadOnly(size_t nIDDlgItem, WPARAM wParam) {
 	}
 
 	SendDlgItemMessageW(main_hwnd, (int)nIDDlgItem, EM_SETREADONLY, wParam, NULL);
+	return true;
+}
+
+bool Alice::ChangeState(size_t nIDDlgItem, BOOL bEnable) {
+	if (!main_hwnd) {
+		return false;
+	}
+
+	HWND item_hwnd = GetDlgItem(main_hwnd, (int)nIDDlgItem);
+	EnableWindow(item_hwnd, bEnable);
 	return true;
 }
 
@@ -204,9 +212,39 @@ LRESULT Alice::CheckBoxStatus(size_t nIDDlgItem) {
 	return SendDlgItemMessageW(main_hwnd, (int)nIDDlgItem, BM_GETCHECK, 0, 0);
 }
 
+bool Alice::ComboBoxAdd(size_t nIDDlgItem, std::wstring wText) {
+	SendDlgItemMessageW(main_hwnd, (int)nIDDlgItem, CB_INSERTSTRING, 0, (LPARAM)wText.c_str());
+	return true;
+}
+
+bool Alice::ComboBoxSelect(size_t nIDDlgItem, int index) {
+	SendDlgItemMessageW(main_hwnd, (int)nIDDlgItem, CB_SETCURSEL, (WPARAM)index, 0);
+	return true;
+}
+
+LRESULT Alice::ComboBoxSelected(size_t nIDDlgItem) {
+	return SendDlgItemMessageW(main_hwnd, (int)nIDDlgItem, CB_GETCURSEL, 0, 0);
+}
+
+std::wstring Alice::ComboBoxGetText(size_t nIDDlgItem, int index) {
+	std::wstring wtext;
+	LRESULT size = SendDlgItemMessageW(main_hwnd, (int)nIDDlgItem, CB_GETLBTEXTLEN, index, 0);
+	if (size) {
+		std::vector<WCHAR> bytes(size + 1);
+		SendDlgItemMessageW(main_hwnd, (int)nIDDlgItem, CB_GETLBTEXT, index, (LPARAM)&bytes[0]);
+		wtext = (WCHAR *)&bytes[0];
+	}
+	return wtext;
+}
+
+std::wstring Alice::ComboBoxGetSelectedText(size_t nIDDlgItem) {
+	LRESULT index = ComboBoxSelected(nIDDlgItem);
+	return ComboBoxGetText(nIDDlgItem, (int)index);
+}
+
 // private
 bool Alice::SetFont(size_t nIDDlgItem) {
-	static HFONT font = CreateFontW(12, NULL, NULL, NULL, FW_NORMAL, NULL, NULL, NULL, SHIFTJIS_CHARSET, NULL, NULL, NULL, NULL, L"ＭＳ ゴシック");
+	static HFONT font = CreateFontW(12, NULL, NULL, NULL, FW_NORMAL, NULL, NULL, NULL, SHIFTJIS_CHARSET, NULL, NULL, NULL, NULL, L"MS Gothic");
 	if (!font) {
 		return false;
 	}
