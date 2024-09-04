@@ -262,9 +262,21 @@ int Alice::AutoWidth(std::wstring wText) {
 }
 
 bool Alice::Embed(HWND hWnd, int nWidth, int nHeight) {
+	EmbedInfo ei = { hWnd, GetParent(hWnd), main_hwnd, GetWindowLongW(hWnd, GWL_STYLE), nWidth, nHeight };
 	SetWindowLongW(hWnd, GWL_STYLE, WS_CHILD | WS_POPUP);
 	ShowWindow(hWnd, SW_SHOW);
 	SetParent(hWnd, main_hwnd);
-	SetWindowPos(hWnd, HWND_TOP, 0, 0, nWidth, nHeight, NULL);
+	Resize(main_hwnd, main_width + nWidth, (main_height < nHeight) ? nHeight : main_height);
+	SetWindowPos(hWnd, HWND_TOP, main_width, 0, nWidth, nHeight, NULL);
+	embed_list.push_back(ei);
 	return true;
+}
+
+void Alice::EmbedOff() {
+	for (auto &v : embed_list) {
+		SetParent(v.child, v.old_parent);
+		SetWindowLongW(v.child, GWL_STYLE, v.style);
+		Resize(v.child, v.width, v.height);
+		ShowWindow(v.child, SW_SHOW);
+	}
 }

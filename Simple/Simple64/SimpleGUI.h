@@ -68,8 +68,18 @@ public:
 
 	// Control
 private:
+	typedef struct {
+		HWND child;
+		HWND old_parent;
+		HWND new_parent;
+		LONG style;
+		int width;
+		int height;
+	} EmbedInfo;
+
 	std::vector<size_t> control_id_list;
 	std::vector<HWND> control_hwnd_list;
+	std::vector<EmbedInfo> embed_list;
 
 	bool SetFont(size_t nIDDlgItem);
 	int AutoWidth(std::wstring wText);
@@ -95,6 +105,7 @@ public:
 	std::wstring ComboBoxGetText(size_t nIDDlgItem, int index);
 	std::wstring ComboBoxGetSelectedText(size_t nIDDlgItem);
 	bool Embed(HWND hWnd, int nWidth, int nHeight);
+	void EmbedOff();
 
 	// ListView
 private:
