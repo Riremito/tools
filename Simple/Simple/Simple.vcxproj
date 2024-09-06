@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="..\Simple64\Simple.h" />
     <ClInclude Include="..\Simple64\SimpleConfig.h" />
+    <ClInclude Include="..\Simple64\SimpleFile.h" />
     <ClInclude Include="..\Simple64\SimpleGUI.h" />
     <ClInclude Include="..\Simple64\SimpleInjector.h" />
     <ClInclude Include="..\Simple64\SimpleMemory.h" />
@@ -29,6 +30,7 @@
   <ItemGroup>
     <ClCompile Include="..\Simple64\Simple.cpp" />
     <ClCompile Include="..\Simple64\SimpleConfig.cpp" />
+    <ClCompile Include="..\Simple64\SimpleFile.cpp" />
     <ClCompile Include="..\Simple64\SimpleGUI.cpp" />
     <ClCompile Include="..\Simple64\SimpleGUICallback.cpp" />
     <ClCompile Include="..\Simple64\SimpleGUIControl.cpp" />
@@ -40,6 +42,9 @@
     <ClCompile Include="..\Simple64\SimplePipeClient.cpp" />
     <ClCompile Include="..\Simple64\SimplePipeServer.cpp" />
     <ClCompile Include="..\Simple64\SimplePipeServerThread.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.editorconfig" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

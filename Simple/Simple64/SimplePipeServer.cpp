@@ -1,4 +1,4 @@
-#include"Simple.h"
+ï»¿#include"Simple.h"
 
 bool(*PipeServer::communicate)(PipeServerThread&) = NULL;
 
@@ -11,7 +11,7 @@ PipeServer::~PipeServer() {
 }
 
 bool PipeServer::Run() {
-	// ŠÇ—ÒŒ ŒÀ‚Ì—L–³‚Ì–³‹ TY taku
+	// ç®¡ç†è€…æ¨©é™ã®æœ‰ç„¡ã®ç„¡è¦– TY taku
 	SECURITY_DESCRIPTOR securityDescriptor;
 	memset(&securityDescriptor, 0, sizeof(securityDescriptor));
 	InitializeSecurityDescriptor(&securityDescriptor, SECURITY_DESCRIPTOR_REVISION);

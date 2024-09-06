@@ -1,4 +1,4 @@
-#ifndef __SIMPLE__H__
+﻿#ifndef __SIMPLE__H__
 #define __SIMPLE__H__
 
 #ifndef SIMPLE_LIB
@@ -23,10 +23,13 @@
 #include"SimpleConfig.h"
 #include"SimplePipe.h"
 #include"SimpleInjector.h"
+#ifdef _WIN64
+#include"SimpleFile.h"
+#endif
 
 #define DEBUG(msg) \
 {\
-std::wstring wmsg = L"[Maple] ";\
+std::wstring wmsg = L"[Debug] ";\
 wmsg += msg;\
 OutputDebugStringW(wmsg.c_str());\
 }
@@ -40,13 +43,12 @@ OutputDebugStringW(wmsg.c_str());\
 std::wstring BYTEtoString(BYTE b);
 std::wstring WORDtoString(WORD w);
 std::wstring DWORDtoString(DWORD dw);
-std::wstring DatatoString(BYTE *b, ULONG_PTR Length, bool space = false);
-
 #ifdef _WIN64
-std::wstring QWORDtoString(ULONG_PTR u);
+std::wstring QWORDtoString(ULONG_PTR u, bool slim = false);
 #else
 #define QWORDtoString(u) DWORDtoString(u)
 #endif
+std::wstring DatatoString(BYTE *b, ULONG_PTR Length, bool space = false);
 
 bool GetDir(std::wstring &wDir, std::wstring wDll = L"");
 bool GetDir(std::wstring &wDir, HMODULE hDll);

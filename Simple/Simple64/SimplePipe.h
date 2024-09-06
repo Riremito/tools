@@ -1,4 +1,4 @@
-#ifndef __SIMPLEPIPE_H__
+﻿#ifndef __SIMPLEPIPE_H__
 #define __SIMPLEPIPE_H__
 
 #define PIPE_MESSAGE_MAGIC 0xA11CE

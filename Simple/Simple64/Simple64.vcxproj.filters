@@ -22,12 +22,18 @@
     <Filter Include="ソース ファイル\Memory">
       <UniqueIdentifier>{c103ca26-f35e-476c-9338-66935c4f17e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\File">
+      <UniqueIdentifier>{3ff569c4-0337-44ae-80fd-14daccbb9825}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Config">
+      <UniqueIdentifier>{50f1ad73-ad16-435e-8520-a1b2bb1a0db8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Injector">
+      <UniqueIdentifier>{931896fb-2684-4f87-9c65-5220f42f54a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Simple.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="SimpleConfig.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="SimplePipeServer.cpp">
@@ -60,8 +66,14 @@
     <ClCompile Include="SimpleMemoryCode.cpp">
       <Filter>ソース ファイル\Memory</Filter>
     </ClCompile>
+    <ClCompile Include="SimpleFile.cpp">
+      <Filter>ソース ファイル\File</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleConfig.cpp">
+      <Filter>ソース ファイル\Config</Filter>
+    </ClCompile>
     <ClCompile Include="SimpleInjector.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Injector</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,5 +95,11 @@
     <ClInclude Include="SimpleInjector.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="SimpleFile.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.editorconfig" />
   </ItemGroup>
 </Project>

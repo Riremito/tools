@@ -108,10 +108,10 @@ private:
 		ULONG_PTR uLength = 0;
 		while (ZYAN_SUCCESS(ZydisDecoderDecodeBuffer(&::zDecoder, (void *)uEIP, 100, &zInst))) {
 			if (ZYDIS_MNEMONIC_JB <= zInst.mnemonic && zInst.mnemonic <= ZYDIS_MNEMONIC_JZ) {
-				return 0;
+				return uLength;
 			}
 			if (zInst.mnemonic == ZYDIS_MNEMONIC_CALL) {
-				return 0;
+				return uLength;
 			}
 			uEIP += zInst.length;
 			uLength += zInst.length;
@@ -157,7 +157,8 @@ private:
 		}
 		}
 
-		for (ULONG_PTR i = 0; i < 0x70; i++) {
+		// 5 bytes long jmp
+		for (ULONG_PTR i = 0x05; i <= 0x2000; i++) {
 			if (*(ULONG_PTR *)(uHookAddress + i) == 0xCCCCCCCCCCCCCCCC) {
 				if (*(BYTE *)(uHookAddress + i - 1) == 0xC3) {
 					uHotPatch = uHookAddress + i;
@@ -165,8 +166,17 @@ private:
 				}
 			}
 		}
-
-
+		/*
+		// 2 bytes short jmp
+		for (ULONG_PTR i = (-0x80 + 0x02); i <= (0x7F + 0x02); i++) {
+			if (*(ULONG_PTR *)(uHookAddress + i) == 0xCCCCCCCCCCCCCCCC) {
+				if (*(BYTE *)(uHookAddress + i - 1) == 0xC3) {
+					uHotPatch = uHookAddress + i;
+					return true;
+				}
+			}
+		}
+		*/
 		return 0;
 #endif
 	}
@@ -483,7 +493,7 @@ namespace SimpleHook {
 		// check addresss
 		for (size_t i = 0; i < section_list.size(); i++) {
 			if ((ULONG_PTR)section_list[i].BaseAddress <= (ULONG_PTR)vReturnAddress && (ULONG_PTR)vReturnAddress <= ((ULONG_PTR)section_list[i].BaseAddress + section_list[i].RegionSize)) {
-				return i;
+				return (int)i;
 			}
 		}
 

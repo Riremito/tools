@@ -1,4 +1,4 @@
-#ifndef __ROSEMARY_H__
+﻿#ifndef __ROSEMARY_H__
 #define __ROSEMARY_H__
 
 class Code {
@@ -29,6 +29,7 @@ public:
 #else
 	bool Compare(unsigned __int64 uAddress);
 #endif
+	size_t size();
 };
 
 

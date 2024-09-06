@@ -1,4 +1,4 @@
-#include"Simple.h"
+﻿#include"Simple.h"
 
 Rosemary::Rosemary() {
 	init = GetSections(L"test", true);

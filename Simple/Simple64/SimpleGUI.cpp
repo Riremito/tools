@@ -1,4 +1,4 @@
-#include"Simple.h"
+﻿#include"Simple.h"
 
 #if defined _M_IX86
 # pragma comment(linker, "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='x86' publicKeyToken='6595b64144ccf1df' language='*'\"")
@@ -25,7 +25,9 @@ Alice::Alice(std::wstring wClassName, std::wstring wWindowName, int nWidth, int 
 
 	SetOnCreate(NULL);
 	SetOnCommand(NULL);
+	SetOnCommandEx(NULL);
 	SetOnNotify(NULL);
+	SetOnDropFile(NULL);
 	SetCallback(NULL, CT_UNDEFINED);
 }
 
@@ -104,6 +106,9 @@ LRESULT CALLBACK Alice::AliceProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPa
 			Resize(hWnd, cs->cx, cs->cy);
 			a->main_hwnd = hWnd;
 			a->OnCreate(*a);
+			if (a->on_dropfile) {
+				DragAcceptFiles(hWnd, TRUE);
+			}
 			ShowWindow(hWnd, SW_SHOW);
 			SetWindowLongPtrW(hWnd, GWLP_USERDATA, (ULONG_PTR)a);
 		}
@@ -112,7 +117,9 @@ LRESULT CALLBACK Alice::AliceProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPa
 	case WM_COMMAND:
 	{
 		if (a) {
-			a->OnCommand(*a, LOWORD(wParam));
+			if (!a->OnCommand(*a, LOWORD(wParam))) {
+				a->OnCommandEx(*a, LOWORD(wParam), HIWORD(wParam));
+			}
 		}
 		break;
 	}
@@ -123,6 +130,15 @@ LRESULT CALLBACK Alice::AliceProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPa
 			if (nh->code == LVN_ITEMCHANGED) {
 				a->OnNotify(*a, LOWORD(wParam));
 			}
+		}
+		break;
+	}
+	case WM_DROPFILES: {
+		if (a) {
+			wchar_t drop[MAX_PATH] = { 0 };
+			DragQueryFileW((HDROP)wParam, 0, drop, _countof(drop) - 1);
+			DragFinish((HDROP)wParam);
+			a->OnDropFile(*a, drop);
 		}
 		break;
 	}

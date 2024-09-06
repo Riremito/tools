@@ -1,4 +1,4 @@
-#include"Simple.h"
+﻿#include"Simple.h"
 
 PipeClient::PipeClient(std::wstring wPipeName) {
 	pipe_name = L"\\\\.\\pipe\\" + wPipeName;
@@ -40,7 +40,7 @@ bool PipeClient::Send(BYTE *bData, ULONG_PTR uLength) {
 	}
 
 	pm->magic = PIPE_MESSAGE_MAGIC;
-	pm->length = uLength;
+	pm->length = (DWORD)uLength;
 	memcpy_s(pm->data, uLength, bData, uLength);
 
 	DWORD wb = 0;

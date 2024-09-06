@@ -1,4 +1,4 @@
-#include"Simple.h"
+ï»¿#include"Simple.h"
 
 Injector::Injector(std::wstring wTargetPath, std::wstring wDllPath) {
 	target_path = wTargetPath;
@@ -132,7 +132,7 @@ bool Injector::Run(std::wstring wCmdLine) {
 	return true;
 }
 
-// ‹N“®Ï‚İ‚ÌƒvƒƒZƒX‚ÉInject
+// èµ·å‹•æ¸ˆã¿ã®ãƒ—ãƒ­ã‚»ã‚¹ã«Inject
 bool Injector::Inject() {
 	if (target_pi.dwProcessId == 0) {
 		return false;
